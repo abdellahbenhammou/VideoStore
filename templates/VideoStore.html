@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title></title>
+    <script type="text/javascript" src="/static/scripts/date.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/styles/datePicker.css">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript" src="/static/scripts/jquery.datePicker.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <script type="text/javascript" src="/static/scripts/jquery.datePicker.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <link type="text/css" href="/static/jquery/css/ui-lightness/jquery-ui-1.9.2.custom.css" rel="Stylesheet" />
+    <link type="text/css" href="/static/styles/style.css" rel="Stylesheet" />
+    <script type="text/javascript" src="/static/scripts/jquery-ui-1.9.2.custom.js"></script>
+    <script type="text/javascript" src="/static/scripts/jquery-ui-1.9.2.custom.min.js"></script>
+    <link type="text/css" href="/static/styles/bootstrap/css/bootstrap.css" rel="Stylesheet" />
+
+
+
+    <script type="text/javascript" src="/static/scripts/js/jquery.raty.js"></script>
+    <script type="text/javascript" src="/static/scripts/js/jquery.raty.min.js"></script>
+</head>
+<body style="padding-left: 40px; background: #f5f5f5">
+<h1 id="hello">Welcome {{ message }} to Video {{ MEDIA_URL }}Store{{ MEDIA_URL }}</h1>
+
+<div>
+    {% include "header.html" %}
+</div>
+<script>
+   $(function(){
+       $("#bycat").hide();
+       $('#bydate').hide();
+       $('#star').hide();
+   });
+</script>
+
+<div style="margin: 30px; margin-bottom: 10px">
+
+    <form method="get" action="/search/">
+        <select name="by" id="search">
+            <option value="name" selected="selected">By Name</option>
+            <option value="category">By Category</option>
+            <option value="time">By Time of Upload</option>
+            <option value="rate">By Rating</option>
+        </select>
+        <div style="display: inline"><span style="display: inline; " id="byname"><input type="search" name="key"  id="searchbox"/></span>
+            <span id="bycat" style="display: inline" >
+            <select name="keycat" id="searchbycat" style="visibi-lity: hidden">
+                <option value="Action">Action</option>
+                <option value="Drama">Drama</option>
+                <option value="Comedy">Comedy</option>
+                <option value="Documentary">Documentary</option>
+            </select>
+        </span>
+        <span id="bydate" style="display: inline" >
+            <select name="befaf" id="searchbydate" style="visibi-lity: hidden">
+                <option value="Before">Before</option>
+                <option value="After">After</option>
+                <option value="Exact">Exact Date</option>
+            </select>
+        </span>
+            <span id="star" data-rating="3" style="margin: 0px 15px 0px 15px"></span>
+
+        </div>
+
+        <input type="submit"/>
+    </form>
+
+</div>
+
+<div style="padding: 0px">
+{% if videos %}
+    {% for video in videos %}
+        {% if forloop.counter|divisibleby:4 %}
+
+        <div class="videos" style="bor-der: 1px solid #24ff1f; display: inline-block; margin: 10px; width: 240px; padding: 0px">
+    <ul  style="list-style: none; padding: 0px">
+
+            <li>Name: {{ video.name }}</li>
+            <li>Category: {{ video.category }}</li>
+            <li>Rating: <span class="rate" data-rating="{{ video.rating }}" style="margin: 0px 15px 0px 15px"></span></li>
+            <li>Uploaded: {{ video.timeOfUpload }}</li>
+            <li>Download: <a href=/download?video={{ video.path }}>Click Here</a></li>
+            <li>Notes: </li>
+
+    </ul>
+            <textarea style="width: 230px; height: 50px; resize: none " readonly="readonly">{{ video.remarks }}</textarea>
+        </div>
+
+            <br style="display: block"/>
+
+        {% else %}
+            <div class="videos" style="bo-rder: 1px solid #ff1122; margin: 10px; display: inline-block; width: 240px; hei-ght: 300px; padding: 0px">
+                <ul style="list-style: none; padding: 0px">
+
+                    <li>Name: {{ video.name }}</li>
+                    <li>Category: {{ video.category }}</li>
+                    <li>Rating: <span class="rate" data-rating="{{ video.rating }}" style="margin: 0px 15px 0px 15px"></span></li>
+                    <li>Uploaded: {{ video.timeOfUpload }}</li>
+                    <li>Download: <a href=/download?video={{ video.path }}>Click Here</a></li>
+                    <li>Notes: </li>
+
+                </ul>
+                <textarea style="width: 230px; height: 50px; resize: none " readonly="readonly">{{ video.remarks }}</textarea>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% else %}
+    <p>No Videos to View</p>
+{% endif %}
+</div>
+
+<script>
+var txt;
+
+    $(".rate").raty({
+        readOnly : true,
+        score: function() {
+
+            return $(this).attr('data-rating');
+        }
+    });
+
+
+$("#search").change(function(){
+        txt = $('#search option:selected').text();
+        if(txt == "By Category"){
+            $("#byname").hide();
+            $("#bydate").hide();
+            $('#bycat').show();
+            $('#star').hide();
+        }
+        else if(txt == "By Name"){
+            $("#byname").show();
+            $('#bycat').hide();
+            $('#bydate').hide();
+            $('#star').hide();
+
+        }
+        else if(txt == "By Time of Upload"){
+            $("#byname").show();
+            $("#bydate").show();
+            $('#bycat').hide();
+            $('#star').hide();
+            $("#searchbox").datepicker({ dateFormat: 'yy-mm-dd' });
+
+
+        }
+        else if(txt == "By Rating"){
+            $("#byname").hide();
+            $("#bydate").hide();
+            $('#bycat').hide();
+            $('#star').show();
+
+
+            $('#star').raty({
+                score: function() {
+                    return $(this).attr('data-rating');
+                }
+            });
+
+
+
+
+        }
+
+
+
+
+        });
+</script>
+<h2></h2>
+</body>
+</html>

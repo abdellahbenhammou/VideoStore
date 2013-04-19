@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link type="text/css" href="/static/styles/style.css" rel="Stylesheet" />
+    <link type="text/css" href="/static/styles/bootstrap/css/bootstrap.css" rel="Stylesheet" />
+</head>
+<body style="padding-left: 40px; background: #f5f5f5">
+<div>{% include "header.html" %}</div>
+<table class="upload">
+    <tbody>
+
+        <form method="post" action="/upload/" enctype="multipart/form-data">
+
+            <tr><td><label>Movie Name</label></td><td>{{ form.name }}</td></tr>
+            <tr><td><label>Category</label></td><td>{{ form.cat }}</td></tr>
+            <tr><td><label>Rating</label></td><td>
+                {{ form.rating }}</td></tr>
+            <tr><td><label>Remarks</label></td><td>{{ form.rem }}</td></tr>
+            <tr><td><label>Choose a File</label></td><td  class="btn">{{ form.file }}</td></tr>
+            <tr><td><label></label></td><td></td></tr>
+            <tr><td><label></label></td><td><input class="btn btn-primary" type="submit" value="upload"/></td></tr>
+
+        </form>
+    </tbody>
+</table>
+</body>
+</html>

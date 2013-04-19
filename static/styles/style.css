@@ -1,0 +1,37 @@
+.wrap {
+    border: 1px solid red;
+}
+
+.videos:hover{
+    background-color: #d3d3d3;
+
+}
+
+.upload{
+    backg-round-color: #d3d3d3;
+    margin: auto;
+    margin-top: 10%;
+    border-radius: 15px;
+}
+
+.register{
+    margin: auto;
+    margin-top: 10%;
+    border-radius: 15px;
+
+}
+.login{
+    margin: auto;
+    margin-top: 10%;
+    border-radius: 15px;
+
+}
+.upload tr{
+    margin: 20px;
+    height: 35px;
+    width: 350px;;
+
+}
+.upload{
+    width: 450px;;
+}
